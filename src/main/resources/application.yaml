@@ -6,7 +6,7 @@ server:
   port: 8080
 
 jwt:
-  secret-key: security-demo-secret-key-2026
+  secret-key: security-demo-jwt-secret-key-2026-abcdef
   expire: 7200000
   header: Authorization
   prefix: Bearer

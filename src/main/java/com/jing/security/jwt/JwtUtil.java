@@ -53,9 +53,15 @@ public class JwtUtil {
                 .getPayload();
     }
 
+    /**
+     * 验证token
+     *
+     * @param token Jwt字符串
+     * @return 验证结果
+     */
     public boolean validateToken(String token) {
         try {
-            Claims claims = parseToken(token);
+            parseToken(token);
             return true;
         }catch (JwtException | IllegalArgumentException e) {
             return false;
