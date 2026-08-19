@@ -1,7 +1,7 @@
 package com.jing.security;
 
 import com.jing.security.config.properties.JwtProperties;
-import com.jing.security.jwt.JwtUtil;
+import com.jing.security.util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;

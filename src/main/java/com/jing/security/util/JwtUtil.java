@@ -1,4 +1,4 @@
-package com.jing.security.jwt;
+package com.jing.security.util;
 
 import com.jing.security.config.properties.JwtProperties;
 import io.jsonwebtoken.Claims;

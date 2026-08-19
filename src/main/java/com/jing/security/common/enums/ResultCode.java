@@ -15,11 +15,9 @@ public enum ResultCode {
 
     USERNAME_OR_PASSWORD_ERROR(10001, "用户名或密码错误"),
 
-    TOKEN_EXPIRED(10002, "JWT过期"),
+    UNAUTHORIZED(401, "未登录或认证信息无效"),
 
-    UNAUTHORIZED(401, "未登录"),
-
-    FORBIDDEN(403, "无权限"),
+    FORBIDDEN(403, "无权限访问"),
 
     PARAM_ERROR(400,"参数错误");
 
