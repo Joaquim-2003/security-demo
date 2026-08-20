@@ -38,3 +38,5 @@ logs/
 ### OS ###
 .DS_Store
 Thumbs.dbS
+
+/src/main/resources/application-local.yaml
