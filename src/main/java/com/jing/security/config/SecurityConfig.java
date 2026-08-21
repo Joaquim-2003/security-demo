@@ -1,6 +1,6 @@
 package com.jing.security.config;
 
-import com.jing.security.filter.JwtAuthenticationFilter;
+import com.jing.security.security.filter.JwtAuthenticationFilter;
 import com.jing.security.handler.JwtAccessDeniedHandler;
 import com.jing.security.handler.JwtAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;

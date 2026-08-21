@@ -1,4 +1,4 @@
-package com.jing.security.filter;
+package com.jing.security.security.filter;
 
 import com.jing.security.config.properties.JwtProperties;
 import com.jing.security.handler.JwtAuthenticationEntryPoint;

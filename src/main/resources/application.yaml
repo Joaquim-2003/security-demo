@@ -11,3 +11,6 @@ jwt:
   expire: 7200000
   header: Authorization
   prefix: "Bearer "
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml

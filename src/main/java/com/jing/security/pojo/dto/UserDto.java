@@ -1,4 +1,4 @@
-package com.jing.security.dto;
+package com.jing.security.pojo.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
