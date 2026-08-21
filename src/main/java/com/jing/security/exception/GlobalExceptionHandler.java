@@ -3,10 +3,13 @@ package com.jing.security.exception;
 import com.jing.security.common.enums.ResultCode;
 import com.jing.security.common.result.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.io.ObjectInputStream;
@@ -48,6 +51,12 @@ public class GlobalExceptionHandler {
         }
 
         return Result.error(ResultCode.PARAM_ERROR, messages.toString());
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public Result<Void> handleAccessDeniedException(AccessDeniedException e) {
+        return Result.error(ResultCode.FORBIDDEN);
     }
 
     /**

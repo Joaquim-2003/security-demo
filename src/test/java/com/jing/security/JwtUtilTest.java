@@ -20,14 +20,25 @@ public class JwtUtilTest {
     private JwtProperties jwtProperties;
 
     /**
-     * 测试生成token
+     * 测试admin生成的token
      */
     @Test
-    void testGenerateToken() {
+    void testAdminGenerateToken() {
         String token = jwtUtil.generateToken(1L, "admin");
 
         assertNotNull(token);
-        log.info("生成的token: {}", token);
+        log.info("admin生成的token: {}", token);
+    }
+
+    /**
+     * 测试user生成的token
+     */
+    @Test
+    void testUserGenerateToken() {
+        String token = jwtUtil.generateToken(2L, "admin");
+
+        assertNotNull(token);
+        log.info("user生成的token: {}", token);
     }
 
     /**
