@@ -2,6 +2,8 @@ package com.jing.security.security.filter;
 
 import com.jing.security.config.properties.JwtProperties;
 import com.jing.security.handler.JwtAuthenticationEntryPoint;
+import com.jing.security.security.model.LoginUser;
+import com.jing.security.security.service.SecurityUserService;
 import com.jing.security.util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -17,7 +19,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Collections;
 
 @Component
 @RequiredArgsConstructor
@@ -28,6 +29,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+    private final SecurityUserService securityUserService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -47,15 +50,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // 解析 JWT 并将用户身份信息保存到 Spring Security 上下文
             Claims claims = jwtUtil.parseToken(token);
 
-            String userId = claims.getSubject();
-            String username = claims.get("username", String.class);
+            Long userId = Long.valueOf(claims.getSubject());
 
-            // TODO principal 当前用户是谁；credentials 认证凭证；authorities 当前用户有哪些权限
+            LoginUser loginUser = securityUserService.loadLoginUser(userId);
+
+            // 创建已认证的 Authentication：
+            //                      principal 表示当前用户;
+            //                      credentials：JWT 场景下无需密码;
+            //                      authorities 表示当前用户拥有的权限;
             UsernamePasswordAuthenticationToken authenticated =
-                UsernamePasswordAuthenticationToken.authenticated(username, null, Collections.emptyList());
+                    UsernamePasswordAuthenticationToken.authenticated(
+                        loginUser,
+                        null,
+                        loginUser.getAuthorities()
+                    );
 
-            // 获取认证信息
             if (SecurityContextHolder.getContext().getAuthentication() == null) {
+                // 将认证信息保存到 Spring Security 上下文，供当前请求后续的权限校验使用
                 SecurityContextHolder.getContext().setAuthentication(authenticated);
             }
         } catch (JwtException | IllegalArgumentException e) {
