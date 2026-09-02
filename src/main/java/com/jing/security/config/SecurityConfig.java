@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -42,7 +44,7 @@ public class SecurityConfig {
             .formLogin(formLogin -> formLogin.disable())
             // 放行 /test/** 路径，无需登录认证即可访问
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/test/**").permitAll().anyRequest().authenticated())
+                .requestMatchers("/login/**").permitAll().anyRequest().authenticated())
             // 在传统用户名密码认证 Filter 的位置之前运行
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
             // 专门设置认证失败处理器
@@ -51,5 +53,12 @@ public class SecurityConfig {
                 .accessDeniedHandler(jwtAccessDeniedHandler));
 
         return http.build();
+    }
+
+
+    // 判断用户输入的明文密码和数据库中加密后的密码是否匹配
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

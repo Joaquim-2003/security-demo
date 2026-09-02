@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.io.ObjectInputStream;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice
@@ -38,19 +39,13 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Result<Void> validationException(MethodArgumentNotValidException e) {
-        BindingResult bindingResult = e.getBindingResult();
-        List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+        String message = e.getBindingResult()
+            .getFieldErrors()
+            .stream()
+            .map(FieldError::getDefaultMessage)
+            .collect(Collectors.joining("; "));
 
-        StringBuilder messages = new StringBuilder();
-
-        for (FieldError fieldError : fieldErrors) {
-            messages.append(fieldError.getField())
-                    .append(": ")
-                    .append(fieldError.getDefaultMessage())
-                    .append("; ");
-        }
-
-        return Result.error(ResultCode.PARAM_ERROR, messages.toString());
+        return Result.error(ResultCode.PARAM_ERROR, message.toString());
     }
 
     @ExceptionHandler(AccessDeniedException.class)

@@ -1,11 +1,13 @@
 package com.jing.security.common.result;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.jing.security.common.enums.ResultCode;
 import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
 
+@JsonPropertyOrder({"code", "message", "data"})
 @Data
 public class Result<T> implements Serializable {
 
